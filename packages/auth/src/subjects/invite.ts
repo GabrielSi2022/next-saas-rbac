@@ -7,7 +7,7 @@ export const inviteSubject = z.tuple([
     z.literal('get'),
     z.literal('delete'),
   ]),
-  z.literal('invite'),
+  z.literal('Invite'),
 ])
 
 export type inviteSubject = z.infer<typeof inviteSubject>
