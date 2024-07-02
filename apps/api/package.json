@@ -23,6 +23,9 @@
     "prisma": "^5.16.1",
     "tsx": "^4.15.7"
   },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
   "prettier": "@saas/prettier",
   "eslintConfig": {
     "extends": [
