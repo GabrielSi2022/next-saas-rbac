@@ -10,7 +10,7 @@ export async function requestPasswordRecover(app: FastifyInstance) {
     {
       schema: {
         tags: ['auth'],
-        summary: 'Obter perfil de usuario autenticado',
+        summary: 'Recuperar senha',
         body: z.object({
           email: z.string().email(),
         }),
