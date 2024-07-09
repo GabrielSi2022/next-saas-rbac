@@ -1,14 +1,13 @@
 import { auth } from '@/http/middlewares/auth'
 import { prisma } from '@/lib/prisma'
-import { userSchema } from '@saas/auth/src/models/user'
+
 import { organizationSchema } from '@saas/auth/src/models/organization'
 import { FastifyInstance } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
 import z from 'zod'
 import { BadRequestError } from '../_errors/bad-request-error'
-import { defineAbilityFor } from '@saas/auth'
 
-import { createSlug } from '@/utils/create-slug'
+import { getUserPermissions } from '@/utils/get-user-permissions'
 
 export async function updateOrganization(app: FastifyInstance) {
   app
@@ -43,14 +42,9 @@ export async function updateOrganization(app: FastifyInstance) {
 
         const { name, domain, shouldAttachUsersByDomain } = request.body
 
-        const authUser = userSchema.parse({
-          id: userId,
-          role: membership.role,
-        })
-
         const authOrganization = organizationSchema.parse(organization)
 
-        const { cannot } = defineAbilityFor(authUser)
+        const { cannot } = getUserPermissions(userId, membership.role)
 
         if (cannot('update', authOrganization)) {
           throw new BadRequestError(
