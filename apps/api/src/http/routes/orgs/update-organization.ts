@@ -8,13 +8,14 @@ import z from 'zod'
 import { BadRequestError } from '../_errors/bad-request-error'
 
 import { getUserPermissions } from '@/utils/get-user-permissions'
+import { UnauthorizedError } from '../_errors/unauthorized-error'
 
 export async function updateOrganization(app: FastifyInstance) {
   app
     .withTypeProvider<ZodTypeProvider>()
     .register(auth)
-    .post(
-      '/organization/:slug',
+    .put(
+      '/organizations/:slug',
       {
         schema: {
           tags: ['organizations'],
@@ -47,7 +48,7 @@ export async function updateOrganization(app: FastifyInstance) {
         const { cannot } = getUserPermissions(userId, membership.role)
 
         if (cannot('update', authOrganization)) {
-          throw new BadRequestError(
+          throw new UnauthorizedError(
             'You re not allowed to update this organization'
           )
         }
