@@ -29,6 +29,7 @@ import { deleteProject } from './routes/projects/delete-project'
 import { getProject } from './routes/projects/get-project'
 import { updateProject } from './routes/projects/update-project'
 import { getMembers } from './routes/members/get-members'
+import { updateMember } from './routes/members/update-member'
 
 const app = fastify().withTypeProvider<ZodTypeProvider>()
 
@@ -88,6 +89,7 @@ app.register(getProject)
 app.register(updateProject)
 
 app.register(getMembers)
+app.register(updateMember)
 
 app.listen({ port: env.SERVER_PORT }).then(() => {
   console.log('HTTP Server is running')
