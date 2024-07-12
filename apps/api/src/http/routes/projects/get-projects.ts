@@ -7,7 +7,6 @@ import { z } from 'zod'
 import { getUserPermissions } from '@/utils/get-user-permissions'
 import { UnauthorizedError } from '../_errors/unauthorized-error'
 
-
 export async function getProjects(app: FastifyInstance) {
   app
     .withTypeProvider<ZodTypeProvider>()
@@ -32,23 +31,23 @@ export async function getProjects(app: FastifyInstance) {
                   description: z.string(),
                   name: z.string(),
                   slug: z.string(),
-                  avatarUrl: z.string().nullable(),
+                  avatarUrl: z.string().url().nullable(),
                   organizationId: z.string().uuid(),
                   ownerId: z.string().uuid(),
                   createdAt: z.date(),
                   owner: z.object({
                     id: z.string().uuid(),
                     name: z.string().nullable(),
-                    avatarUrl: z.string().nullable(),
+                    avatarUrl: z.string().url().nullable(),
                   }),
-                }),
+                })
               ),
             }),
           },
         },
       },
       async (request, reply) => {
-        const { slug} = request.params
+        const { slug } = request.params
         const userId = await request.getCurrentUserId()
         const { organization, membership } =
           await request.getUserMembership(slug)
@@ -78,15 +77,12 @@ export async function getProjects(app: FastifyInstance) {
             },
           },
           where: {
-           
             organizationId: organization.id,
           },
-          orderBy:{
+          orderBy: {
             createdAt: 'desc',
-          }
+          },
         })
-
-        
 
         return reply.send({ projects })
       }
