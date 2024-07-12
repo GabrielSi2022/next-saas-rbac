@@ -5,9 +5,9 @@ import { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { z } from 'zod'
 
 import { getUserPermissions } from '@/utils/get-user-permissions'
-import { UnauthorizedError } from '../_errors/unauthorized-error'
 import { roleSchema } from '@saas/auth/src/roles'
 import { BadRequestError } from '../_errors/bad-request-error'
+import { UnauthorizedError } from '../_errors/unauthorized-error'
 
 export async function createInvite(app: FastifyInstance) {
   app
