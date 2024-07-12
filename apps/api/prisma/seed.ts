@@ -2,9 +2,12 @@ import { faker } from '@faker-js/faker'
 import { hash } from 'bcryptjs'
 import { PrismaClient } from '@prisma/client'
 
+
+
 const prisma = new PrismaClient()
 
 async function seed() {
+  
   await prisma.organization.deleteMany()
   await prisma.user.deleteMany()
 
