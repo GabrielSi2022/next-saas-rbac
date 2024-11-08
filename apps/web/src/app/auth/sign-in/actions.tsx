@@ -1,9 +1,11 @@
 'use server'
 
+import { HTTPError } from 'ky'
+import { cookies } from 'next/headers'
+
 import { z } from 'zod'
 
 import { SignInWithPassword } from '@/http/sign-in-with-password'
-import { HTTPError } from 'ky'
 
 const signInSchema = z.object({
   email: z.string().email({ message: 'Por Favor use um e-mail valido' }),
@@ -27,7 +29,10 @@ export async function SignInWithEmailAndPassword(data: FormData) {
       password,
     })
 
-    console.log(token)
+    cookies().set('token', token, {
+      path: '/',
+      maxAge: 60 * 60 * 24 * 7, //7 dias
+    })
   } catch (err) {
     if (err instanceof HTTPError) {
       const { message } = await err.response.json()
