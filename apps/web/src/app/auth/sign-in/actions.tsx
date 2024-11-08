@@ -10,7 +10,7 @@ const signInSchema = z.object({
   password: z.string().min(1, { message: 'Por favor use uma senha valida ' }),
 })
 
-export async function SignInWithEmailAndPassword(_: unknown, data: FormData) {
+export async function SignInWithEmailAndPassword(data: FormData) {
   const result = signInSchema.safeParse(Object.fromEntries(data))
 
   if (!result.success) {
