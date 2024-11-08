@@ -1,10 +1,16 @@
+import { redirect } from 'next/navigation'
+
 import Header from '../../components/Header'
+import { isAuthenticated } from '@/auth/auth'
 
 export default function AuthLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  if (isAuthenticated()) {
+    redirect('/')
+  }
   return (
     <div>
       <Header />
